@@ -1,0 +1,116 @@
+{
+  "name": "react-server-dom-rspack",
+  "description": "React Server Components bindings for DOM using Rspack",
+  "version": "0.0.1-alpha.1",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./client": {
+      "workerd": {
+        "types": "./dist/client.edge.d.ts",
+        "default": "./dist/client.edge.js"
+      },
+      "deno": {
+        "types": "./dist/client.edge.d.ts",
+        "default": "./dist/client.edge.js"
+      },
+      "worker": {
+        "types":"./dist/client.edge.d.ts",
+        "default": "./dist/client.edge.js"
+      },
+      "node": {
+        "types":"./dist/client.node.d.ts",
+        "default": "./dist/client.node.js"
+      },
+      "edge-light": {
+        "types": "./dist/client.edge.d.ts",
+        "default": "./dist/client.edge.js"
+      },
+      "browser": {
+        "types": "./dist/client.browser.d.ts",
+        "default": "./dist/client.browser.js"
+      },
+      "default": {
+        "types": "./dist/client.browser.d.ts",
+        "default": "./dist/client.browser.js"
+      }
+    },
+    "./client.browser": {
+      "types": "./dist/client.browser.d.ts",
+      "default": "./dist/client.browser.js"
+    },
+    "./client.edge": {
+      "types": "./dist/client.edge.d.ts",
+      "default": "./dist/client.edge.js"
+    },
+    "./client.node": {
+      "types": "./dist/client.node.d.ts",
+      "default": "./dist/client.node.js"
+    },
+    "./server": {
+      "react-server": {
+        "workerd": {
+          "types": "./dist/server.edge.d.ts",
+          "default": "./dist/server.edge.js"
+        },
+        "deno": {
+          "types": "./dist/server.browser.d.ts",
+          "default": "./dist/server.browser.js"
+        },
+        "node": {
+          "types": "./dist/server.node.d.ts",
+          "default": "./dist/server.node.js"
+        },
+        "edge-light": {
+          "types": "./dist/server.edge.d.ts",
+          "default": "./dist/server.edge.js"
+        },
+        "browser": {
+          "types": "./dist/server.browser.d.ts",
+          "default": "./dist/server.browser.js"
+        }
+      },
+      "default": "./server.js"
+    },
+    "./server.browser": {
+      "types": "./dist/server.browser.d.ts",
+      "default": "./dist/server.browser.js"
+    },
+    "./server.edge": {
+      "types": "./dist/server.edge.d.ts",
+      "default": "./dist/server.edge.js"
+    },
+    "./server.node": {
+      "types": "./dist/server.node.d.ts",
+      "default": "./dist/server.node.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "client": ["dist/client.d.ts"],
+      "client.browser": ["dist/client.browser.d.ts"],
+      "client.edge": ["dist/client.edge.d.ts"],
+      "client.node": ["dist/client.node.d.ts"],
+      "server": ["dist/server.d.ts"],
+      "server.browser": ["dist/server.browser.d.ts"],
+      "server.edge": ["dist/server.edge.d.ts"],
+      "server.node": ["dist/server.node.d.ts"],
+      "*": ["dist/index.d.ts"]
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "react-server-dom-webpack": "^19.2.3"
+  }
+}

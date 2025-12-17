@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "target": "ES2022",
+
+    "strict": true,
+    "skipLibCheck": true,
+
+    // Common settings when building as a library
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "sourceMap": false,
+
+    // Works with ESM + the `exports` field
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+
+    // Generate more broadly compatible .d.ts (reduces compatibility issues caused by rewritten exported types)
+    "isolatedModules": true,
+
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+
+    // Common for npm libraries: allow default-importing CJS deps without type/emit errors (type-checking/emit only)
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // Output directory for compiled artifacts
+    "outDir": "dist",
+
+    // Make tree-shaking friendlier for bundlers
+    "importsNotUsedAsValues": "remove"
+  },
+  "include": ["src", "types"],
+  "exclude": ["dist", "node_modules"]
+}
