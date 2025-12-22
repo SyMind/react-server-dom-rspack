@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as ReactClient from "react-server-dom-webpack/client.browser";
+import * as ReactClient from "../vendor/react-server-dom-webpack/client.browser";
 import type { TemporaryReferenceSet } from "./types";
 
 export type CallServerCallback = (

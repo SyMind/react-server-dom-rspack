@@ -1,0 +1,394 @@
+diff --git a/cjs/react-server-dom-webpack-client.browser.development.js b/cjs/react-server-dom-webpack-client.browser.development.js
+index 047de04a5ac9b47bdd82fe409ccbb7fc1bce4adf..f6e905d4aba0433e3cba5e73ee71e62c69403207 100644
+--- a/cjs/react-server-dom-webpack-client.browser.development.js
++++ b/cjs/react-server-dom-webpack-client.browser.development.js
+@@ -75,16 +75,11 @@
+         i < chunks.length;
+ 
+       ) {
+-        var chunkId = chunks[i++],
+-          chunkFilename = chunks[i++],
+-          entry = chunkCache.get(chunkId);
+-        void 0 === entry
+-          ? ((chunkFilename = loadChunk(chunkId, chunkFilename)),
+-            promises.push(chunkFilename),
+-            (entry = chunkCache.set.bind(chunkCache, chunkId, null)),
+-            chunkFilename.then(entry, ignoreReject),
+-            chunkCache.set(chunkId, chunkFilename))
+-          : null !== entry && promises.push(entry);
++        var chunkId = chunks[i++];
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -4668,7 +4663,6 @@
+       decoderOptions = { stream: !0 },
+       bind = Function.prototype.bind,
+       hasOwnProperty = Object.prototype.hasOwnProperty,
+-      chunkCache = new Map(),
+       chunkMap = new Map(),
+       webpackGetChunkFilename = __webpack_require__.u;
+     __webpack_require__.u = function (chunkId) {
+diff --git a/cjs/react-server-dom-webpack-client.browser.production.js b/cjs/react-server-dom-webpack-client.browser.production.js
+index 99ae33fd7dadecc336994b843372e2ead590c93b..deb4ff92b4d9add2ad080a570c3975950b9177b6 100644
+--- a/cjs/react-server-dom-webpack-client.browser.production.js
++++ b/cjs/react-server-dom-webpack-client.browser.production.js
+@@ -53,7 +53,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -73,17 +72,11 @@ function requireAsyncModule(id) {
+ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+-    var chunkId = chunks[i++],
+-      chunkFilename = chunks[i++],
+-      entry = chunkCache.get(chunkId);
+-    void 0 === entry
+-      ? (chunkMap.set(chunkId, chunkFilename),
+-        (chunkFilename = __webpack_chunk_load__(chunkId)),
+-        promises.push(chunkFilename),
+-        (entry = chunkCache.set.bind(chunkCache, chunkId, null)),
+-        chunkFilename.then(entry, ignoreReject),
+-        chunkCache.set(chunkId, chunkFilename))
+-      : null !== entry && promises.push(entry);
++    var chunkId = chunks[i++];
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length
+diff --git a/cjs/react-server-dom-webpack-client.edge.development.js b/cjs/react-server-dom-webpack-client.edge.development.js
+index 173d4c3c86bdcbc2de4ca06c516f532c756c3180..259592a659d4625352032dad4aadfaec3d4cb39a 100644
+--- a/cjs/react-server-dom-webpack-client.edge.development.js
++++ b/cjs/react-server-dom-webpack-client.edge.development.js
+@@ -76,15 +76,10 @@
+ 
+       ) {
+         var chunkId = chunks[i++];
+-        chunks[i++];
+-        var entry = chunkCache.get(chunkId);
+-        if (void 0 === entry) {
+-          entry = __webpack_chunk_load__(chunkId);
+-          promises.push(entry);
+-          var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-          entry.then(resolve, ignoreReject);
+-          chunkCache.set(chunkId, entry);
+-        } else null !== entry && promises.push(entry);
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -4701,7 +4696,6 @@
+       decoderOptions = { stream: !0 },
+       bind$1 = Function.prototype.bind,
+       hasOwnProperty = Object.prototype.hasOwnProperty,
+-      chunkCache = new Map(),
+       ReactDOMSharedInternals =
+         ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,
+       REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"),
+diff --git a/cjs/react-server-dom-webpack-client.edge.production.js b/cjs/react-server-dom-webpack-client.edge.production.js
+index 7b18971ef67fb97c798d3f3c847dee073a4ca651..3330e78635bc932c7aa721869743d14b71ced7e5 100644
+--- a/cjs/react-server-dom-webpack-client.edge.production.js
++++ b/cjs/react-server-dom-webpack-client.edge.production.js
+@@ -53,7 +53,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -74,15 +73,10 @@ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+     var chunkId = chunks[i++];
+-    chunks[i++];
+-    var entry = chunkCache.get(chunkId);
+-    if (void 0 === entry) {
+-      entry = __webpack_chunk_load__(chunkId);
+-      promises.push(entry);
+-      var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-      entry.then(resolve, ignoreReject);
+-      chunkCache.set(chunkId, entry);
+-    } else null !== entry && promises.push(entry);
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length
+diff --git a/cjs/react-server-dom-webpack-client.node.development.js b/cjs/react-server-dom-webpack-client.node.development.js
+index 11ad3130586ab6594bbd6fa19bff565a6b29b213..70e6eb0af4924e5288295b3fe5d2a4f2ff3297db 100644
+--- a/cjs/react-server-dom-webpack-client.node.development.js
++++ b/cjs/react-server-dom-webpack-client.node.development.js
+@@ -76,15 +76,10 @@
+ 
+       ) {
+         var chunkId = chunks[i++];
+-        chunks[i++];
+-        var entry = chunkCache.get(chunkId);
+-        if (void 0 === entry) {
+-          entry = __webpack_chunk_load__(chunkId);
+-          promises.push(entry);
+-          var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-          entry.then(resolve, ignoreReject);
+-          chunkCache.set(chunkId, entry);
+-        } else null !== entry && promises.push(entry);
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -4806,7 +4801,6 @@
+       decoderOptions = { stream: !0 },
+       bind$1 = Function.prototype.bind,
+       hasOwnProperty = Object.prototype.hasOwnProperty,
+-      chunkCache = new Map(),
+       ReactDOMSharedInternals =
+         ReactDOM.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,
+       REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"),
+diff --git a/cjs/react-server-dom-webpack-client.node.production.js b/cjs/react-server-dom-webpack-client.node.production.js
+index 1d3580e58331305200d74031a5daea40b07aa621..11c575d1489510ed7be8a20beae160720bbec96b 100644
+--- a/cjs/react-server-dom-webpack-client.node.production.js
++++ b/cjs/react-server-dom-webpack-client.node.production.js
+@@ -54,7 +54,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -75,15 +74,10 @@ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+     var chunkId = chunks[i++];
+-    chunks[i++];
+-    var entry = chunkCache.get(chunkId);
+-    if (void 0 === entry) {
+-      entry = __webpack_chunk_load__(chunkId);
+-      promises.push(entry);
+-      var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-      entry.then(resolve, ignoreReject);
+-      chunkCache.set(chunkId, entry);
+-    } else null !== entry && promises.push(entry);
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length
+diff --git a/cjs/react-server-dom-webpack-server.browser.development.js b/cjs/react-server-dom-webpack-server.browser.development.js
+index f5856a359b526a885e627300a1c3de320c56d947..39a1e94cab8a507c36a0fb062963d3c399cd0182 100644
+--- a/cjs/react-server-dom-webpack-server.browser.development.js
++++ b/cjs/react-server-dom-webpack-server.browser.development.js
+@@ -3835,16 +3835,11 @@
+         i < chunks.length;
+ 
+       ) {
+-        var chunkId = chunks[i++],
+-          chunkFilename = chunks[i++],
+-          entry = chunkCache.get(chunkId);
+-        void 0 === entry
+-          ? ((chunkFilename = loadChunk(chunkId, chunkFilename)),
+-            promises.push(chunkFilename),
+-            (entry = chunkCache.set.bind(chunkCache, chunkId, null)),
+-            chunkFilename.then(entry, ignoreReject),
+-            chunkCache.set(chunkId, chunkFilename))
+-          : null !== entry && promises.push(entry);
++        var chunkId = chunks[i++];
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -5258,7 +5253,6 @@
+       debugNoOutline = null,
+       emptyRoot = {},
+       decoderOptions = { stream: !0 },
+-      chunkCache = new Map(),
+       chunkMap = new Map(),
+       webpackGetChunkFilename = __webpack_require__.u;
+     __webpack_require__.u = function (chunkId) {
+diff --git a/cjs/react-server-dom-webpack-server.browser.production.js b/cjs/react-server-dom-webpack-server.browser.production.js
+index 1dae97c6453e621a02414153abb78c80637c9bb5..0f16f4c136516ee267e67ed647d35698e3afff8d 100644
+--- a/cjs/react-server-dom-webpack-server.browser.production.js
++++ b/cjs/react-server-dom-webpack-server.browser.production.js
+@@ -2190,7 +2190,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -2210,17 +2209,11 @@ function requireAsyncModule(id) {
+ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+-    var chunkId = chunks[i++],
+-      chunkFilename = chunks[i++],
+-      entry = chunkCache.get(chunkId);
+-    void 0 === entry
+-      ? (chunkMap.set(chunkId, chunkFilename),
+-        (chunkFilename = __webpack_chunk_load__(chunkId)),
+-        promises.push(chunkFilename),
+-        (entry = chunkCache.set.bind(chunkCache, chunkId, null)),
+-        chunkFilename.then(entry, ignoreReject),
+-        chunkCache.set(chunkId, chunkFilename))
+-      : null !== entry && promises.push(entry);
++    var chunkId = chunks[i++];
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length
+diff --git a/cjs/react-server-dom-webpack-server.edge.development.js b/cjs/react-server-dom-webpack-server.edge.development.js
+index 5b9f4c85a6cf91e6eb17c34c20909b4eb67cba6c..52f3dce2943f35706f78065f63a85851042e04cd 100644
+--- a/cjs/react-server-dom-webpack-server.edge.development.js
++++ b/cjs/react-server-dom-webpack-server.edge.development.js
+@@ -3911,15 +3911,10 @@
+ 
+       ) {
+         var chunkId = chunks[i++];
+-        chunks[i++];
+-        var entry = chunkCache.get(chunkId);
+-        if (void 0 === entry) {
+-          entry = __webpack_chunk_load__(chunkId);
+-          promises.push(entry);
+-          var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-          entry.then(resolve, ignoreReject);
+-          chunkCache.set(chunkId, entry);
+-        } else null !== entry && promises.push(entry);
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -5329,7 +5324,6 @@
+       debugNoOutline = null,
+       emptyRoot = {},
+       decoderOptions = { stream: !0 },
+-      chunkCache = new Map(),
+       RESPONSE_SYMBOL = Symbol();
+     ReactPromise.prototype = Object.create(Promise.prototype);
+     ReactPromise.prototype.then = function (resolve, reject) {
+diff --git a/cjs/react-server-dom-webpack-server.edge.production.js b/cjs/react-server-dom-webpack-server.edge.production.js
+index dea56f96c761f1a73ea6755f8f0d85aa3e277d39..d84d2618672a4effcec3d9948e6d3f3f049d0aad 100644
+--- a/cjs/react-server-dom-webpack-server.edge.production.js
++++ b/cjs/react-server-dom-webpack-server.edge.production.js
+@@ -2195,7 +2195,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -2216,15 +2215,10 @@ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+     var chunkId = chunks[i++];
+-    chunks[i++];
+-    var entry = chunkCache.get(chunkId);
+-    if (void 0 === entry) {
+-      entry = __webpack_chunk_load__(chunkId);
+-      promises.push(entry);
+-      var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-      entry.then(resolve, ignoreReject);
+-      chunkCache.set(chunkId, entry);
+-    } else null !== entry && promises.push(entry);
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length
+diff --git a/cjs/react-server-dom-webpack-server.node.development.js b/cjs/react-server-dom-webpack-server.node.development.js
+index b0e33ba4252b82cf3f74c9881142ffc39bde33e1..3059d7308804f4902be6cc6a906c0a925bd25bea 100644
+--- a/cjs/react-server-dom-webpack-server.node.development.js
++++ b/cjs/react-server-dom-webpack-server.node.development.js
+@@ -4314,15 +4314,10 @@
+ 
+       ) {
+         var chunkId = chunks[i++];
+-        chunks[i++];
+-        var entry = chunkCache.get(chunkId);
+-        if (void 0 === entry) {
+-          entry = __webpack_chunk_load__(chunkId);
+-          promises.push(entry);
+-          var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-          entry.then(resolve, ignoreReject);
+-          chunkCache.set(chunkId, entry);
+-        } else null !== entry && promises.push(entry);
++        i++;
++        var thenable = __webpack_chunk_load__(chunkId);
++        promises.push(thenable);
++        thenable.catch(ignoreReject);
+       }
+       return 4 === metadata.length
+         ? 0 === promises.length
+@@ -5955,7 +5950,6 @@
+       debugNoOutline = null,
+       emptyRoot = {},
+       decoderOptions = { stream: !0 },
+-      chunkCache = new Map(),
+       RESPONSE_SYMBOL = Symbol();
+     ReactPromise.prototype = Object.create(Promise.prototype);
+     ReactPromise.prototype.then = function (resolve, reject) {
+diff --git a/cjs/react-server-dom-webpack-server.node.production.js b/cjs/react-server-dom-webpack-server.node.production.js
+index b9053a4c6baefbe98e8a72dcb2d5e184fc43660e..b85679de23caf5b67ece9efcc70bcd6d7a9ec308 100644
+--- a/cjs/react-server-dom-webpack-server.node.production.js
++++ b/cjs/react-server-dom-webpack-server.node.production.js
+@@ -2224,7 +2224,6 @@ function resolveServerReference(bundlerConfig, id) {
+     ? [resolvedModuleData.id, resolvedModuleData.chunks, name, 1]
+     : [resolvedModuleData.id, resolvedModuleData.chunks, name];
+ }
+-var chunkCache = new Map();
+ function requireAsyncModule(id) {
+   var promise = __webpack_require__(id);
+   if ("function" !== typeof promise.then || "fulfilled" === promise.status)
+@@ -2245,15 +2244,10 @@ function ignoreReject() {}
+ function preloadModule(metadata) {
+   for (var chunks = metadata[1], promises = [], i = 0; i < chunks.length; ) {
+     var chunkId = chunks[i++];
+-    chunks[i++];
+-    var entry = chunkCache.get(chunkId);
+-    if (void 0 === entry) {
+-      entry = __webpack_chunk_load__(chunkId);
+-      promises.push(entry);
+-      var resolve = chunkCache.set.bind(chunkCache, chunkId, null);
+-      entry.then(resolve, ignoreReject);
+-      chunkCache.set(chunkId, entry);
+-    } else null !== entry && promises.push(entry);
++    i++;
++    var thenable = __webpack_chunk_load__(chunkId);
++    promises.push(thenable);
++    thenable.catch(ignoreReject);
+   }
+   return 4 === metadata.length
+     ? 0 === promises.length

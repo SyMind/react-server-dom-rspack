@@ -16,11 +16,11 @@
         "default": "./dist/client.edge.js"
       },
       "worker": {
-        "types":"./dist/client.edge.d.ts",
+        "types": "./dist/client.edge.d.ts",
         "default": "./dist/client.edge.js"
       },
       "node": {
-        "types":"./dist/client.node.d.ts",
+        "types": "./dist/client.node.d.ts",
         "default": "./dist/client.node.js"
       },
       "edge-light": {
@@ -90,27 +90,53 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "client": ["dist/client.d.ts"],
-      "client.browser": ["dist/client.browser.d.ts"],
-      "client.edge": ["dist/client.edge.d.ts"],
-      "client.node": ["dist/client.node.d.ts"],
-      "server": ["dist/server.d.ts"],
-      "server.browser": ["dist/server.browser.d.ts"],
-      "server.edge": ["dist/server.edge.d.ts"],
-      "server.node": ["dist/server.node.d.ts"],
-      "*": ["dist/index.d.ts"]
+      "client": [
+        "dist/client.d.ts"
+      ],
+      "client.browser": [
+        "dist/client.browser.d.ts"
+      ],
+      "client.edge": [
+        "dist/client.edge.d.ts"
+      ],
+      "client.node": [
+        "dist/client.node.d.ts"
+      ],
+      "server": [
+        "dist/server.d.ts"
+      ],
+      "server.browser": [
+        "dist/server.browser.d.ts"
+      ],
+      "server.edge": [
+        "dist/server.edge.d.ts"
+      ],
+      "server.node": [
+        "dist/server.node.d.ts"
+      ],
+      "*": [
+        "dist/index.d.ts"
+      ]
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "vendor"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "dev": "tsc -p tsconfig.json --watch"
+    "build": "pnpm run vendor && tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "vendor": "cpx \"./node_modules/react-server-dom-webpack/**\" ./vendor/react-server-dom-webpack"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@rspack/core": "^1.x"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
+    "cpx2": "^8.0.0",
+    "react-server-dom-webpack": "^19.2.3",
     "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "react-server-dom-webpack": "^19.2.3"
   }
 }

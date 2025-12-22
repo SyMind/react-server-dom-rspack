@@ -1,6 +1,6 @@
 import type { Readable } from "node:stream";
 // @ts-ignore
-import * as ReactClient from "react-server-dom-webpack/client.node";
+import * as ReactClient from "../vendor/react-server-dom-webpack/client.node";
 import type { EncodeFormActionCallback } from "./client.edge";
 
 export * from "./client.edge";
