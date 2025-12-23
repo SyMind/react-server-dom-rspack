@@ -28,7 +28,11 @@ type ClientManifest = {
 };
 
 declare global {
-    const __webpack_require__: (id: string | number) => any;
+    const __webpack_require__: ((id: string | number) => any) & {
+        rscHmr: {
+            on: (callback: () => void) => () => void;
+        };
+    };
 
     const __rspack_rsc_manifest__: {
         serverManifest: ServerManifest,

@@ -91,3 +91,10 @@ export const encodeReply: (
     signal?: AbortSignal;
   }
 ) => Promise<string | FormData> = ReactClient.encodeReply;
+
+
+export function onServerComponentChanges(callback: () => void): () => void {
+  return __webpack_require__.rscHmr.on(() => {
+    callback();
+  });
+}
