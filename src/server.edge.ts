@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as ReactServer from "react-server-dom-webpack/server.edge";
+import * as ReactServer from "../vendor/react-server-dom-webpack/server.edge";
 import type { TemporaryReferenceSet } from "./types";
 
 export function renderToReadableStream(

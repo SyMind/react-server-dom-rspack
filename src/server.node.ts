@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as ReactServer from "react-server-dom-webpack/server.node";
+import * as ReactServer from "../vendor/react-server-dom-webpack/server.node";
 import type { TemporaryReferenceSet } from "./types";
 
 export type { TemporaryReferenceSet } from "./types";
