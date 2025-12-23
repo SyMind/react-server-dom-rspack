@@ -1,7 +1,7 @@
 {
   "name": "react-server-dom-rspack",
   "description": "React Server Components bindings for DOM using Rspack",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "type": "module",
   "sideEffects": false,
   "exports": {
