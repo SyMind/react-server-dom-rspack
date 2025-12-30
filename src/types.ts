@@ -6,45 +6,45 @@ export type ServerEntry<T> = T & {
 };
 
 type ModuleLoading = {
-    prefix: string,
-    crossOrigin: 'use-credentials' | '',
-}
+  prefix: string;
+  crossOrigin: 'use-credentials' | '';
+};
 
 type ServerConsumerModuleMap = {
-    [id: string]: {
-        [name: string]: {specifier: string, name: string},
-    },
+  [id: string]: {
+    [name: string]: { specifier: string; name: string };
+  };
 };
 
 type ServerManifest = {
-  [id: string]: ImportManifestEntry,
+  [id: string]: ImportManifestEntry;
 };
 
 type ImportManifestEntry = {
-  id: string,
+  id: string;
   // chunks is a double indexed array of chunkId / chunkFilename pairs
-  chunks: Array<string>,
-  name: string,
-  async?: boolean,
+  chunks: Array<string>;
+  name: string;
+  async?: boolean;
 };
 
 type ClientManifest = {
-  [id: string]: ImportManifestEntry,
+  [id: string]: ImportManifestEntry;
 };
 
 declare global {
-    const __webpack_require__: ((id: string | number) => any) & {
-        rscHmr: {
-            on: (callback: () => void) => () => void;
-        };
+  const __webpack_require__: ((id: string | number) => any) & {
+    rscHmr: {
+      on: (callback: () => void) => () => void;
     };
+  };
 
-    const __rspack_rsc_manifest__: {
-        serverManifest: ServerManifest,
-        clientManifest: ClientManifest,
-        serverConsumerModuleMap: ServerConsumerModuleMap,
-        moduleLoading: ModuleLoading,
-        entryCssFiles: Record<string, string[]>,
-        entryJsFiles: string[],
-    }
+  const __rspack_rsc_manifest__: {
+    serverManifest: ServerManifest;
+    clientManifest: ClientManifest;
+    serverConsumerModuleMap: ServerConsumerModuleMap;
+    moduleLoading: ModuleLoading;
+    entryCssFiles: Record<string, string[]>;
+    entryJsFiles: string[];
+  };
 }

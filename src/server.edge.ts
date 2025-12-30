@@ -1,6 +1,6 @@
-// @ts-ignore
-import * as ReactServer from "../vendor/react-server-dom-webpack/server.edge";
-import type { TemporaryReferenceSet, ServerEntry } from "./types";
+// @ts-expect-error
+import * as ReactServer from '../vendor/react-server-dom-webpack/server.edge';
+import type { ServerEntry, TemporaryReferenceSet } from './types';
 
 export function renderToReadableStream(
   model: any,
@@ -11,17 +11,17 @@ export function renderToReadableStream(
       url: string,
       functionName: string,
       lineNumber: number,
-      columnNumber: number
+      columnNumber: number,
     ) => boolean;
     onError?: (error: unknown) => void;
     signal?: AbortSignal;
     debugChannel?: { readable?: ReadableStream; writable?: WritableStream };
-  }
+  },
 ) {
   ReactServer.renderToReadableStream(
     model,
     __rspack_rsc_manifest__.clientManifest,
-    options
+    options,
   );
 }
 
@@ -29,12 +29,12 @@ export function decodeReply<T>(
   body: string | FormData,
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
-  }
+  },
 ): Promise<T> {
   return ReactServer.decodeReply(
     body,
     __rspack_rsc_manifest__.serverManifest,
-    options
+    options,
   );
 }
 
@@ -42,12 +42,12 @@ export function decodeReplyFromAsyncIterable<T>(
   iterable: AsyncIterable<[string, string | File]>,
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
-  }
+  },
 ): Promise<T> {
   return ReactServer.decodeReplyFromAsyncIterable(
     iterable,
     __rspack_rsc_manifest__.serverManifest,
-    options
+    options,
   );
 }
 
@@ -57,25 +57,25 @@ export function decodeAction<T>(body: FormData): Promise<() => T> | null {
 
 export function decodeFormState<S>(
   actionResult: S,
-  body: FormData
+  body: FormData,
 ): Promise<unknown | null> {
   return ReactServer.decodeFormState(
     actionResult,
     body,
-    __rspack_rsc_manifest__.serverManifest
+    __rspack_rsc_manifest__.serverManifest,
   );
 }
 
 export const registerClientReference: (
   proxyImplementation: any,
   id: string,
-  exportName: string
+  exportName: string,
 ) => unknown = ReactServer.registerClientReference;
 
 export const registerServerReference: <T extends Function>(
   reference: T,
   id: string,
-  exportName: null | string
+  exportName: null | string,
 ) => unknown = ReactServer.registerServerReference;
 
 export const createTemporaryReferenceSet: (
@@ -87,30 +87,30 @@ export async function loadServerAction(actionId: string): Promise<Function> {
 
   if (!actionModId) {
     throw new Error(
-      `Failed to find Server Action "${actionId}". This request might be from an older or newer deployment.`
+      `Failed to find Server Action "${actionId}". This request might be from an older or newer deployment.`,
     );
   }
 
   const moduleExports = __webpack_require__(actionModId);
   const fn = moduleExports[actionId];
-  if (typeof fn !== "function") {
-    throw new Error("Server actions must be functions");
+  if (typeof fn !== 'function') {
+    throw new Error('Server actions must be functions');
   }
   return fn;
 }
 
-export type { ServerEntry } from "./types";
+export type { ServerEntry } from './types';
 
 export function createServerEntry<T>(
   value: T,
-  resourceId: string
+  resourceId: string,
 ): ServerEntry<T> {
   const entryJsFiles = __rspack_rsc_manifest__.entryJsFiles ?? [];
   const entryCssFiles =
     __rspack_rsc_manifest__.entryCssFiles?.[resourceId] ?? [];
   if (
-    typeof value === "function" ||
-    (typeof value === "object" && value !== null)
+    typeof value === 'function' ||
+    (typeof value === 'object' && value !== null)
   ) {
     Object.assign(value, {
       entryJsFiles,

@@ -1,10 +1,10 @@
-// @ts-ignore
-import * as ReactClient from "../vendor/react-server-dom-webpack/client.browser";
-import type { TemporaryReferenceSet } from "./types";
+// @ts-expect-error
+import * as ReactClient from '../vendor/react-server-dom-webpack/client.browser';
+import type { TemporaryReferenceSet } from './types';
 
 export type CallServerCallback = (
   id: string,
-  args: unknown[]
+  args: unknown[],
 ) => Promise<unknown>;
 
 let callServer: CallServerCallback | null = null;
@@ -15,7 +15,7 @@ export function setServerCallback(fn: CallServerCallback) {
 function callCurrentServerCallback(id: string, args: any): Promise<any> {
   if (!callServer) {
     throw new Error(
-      "No server callback has been registered. Call setServerCallback to register one."
+      'No server callback has been registered. Call setServerCallback to register one.',
     );
   }
   return callServer(id, args);
@@ -23,29 +23,29 @@ function callCurrentServerCallback(id: string, args: any): Promise<any> {
 
 function findSourceMapURL(
   filename: string,
-  environmentName: string
+  environmentName: string,
 ): string | null {
-  const url = new URL("/__rspack_source_map", window.location.origin);
-  url.searchParams.set("filename", filename);
-  url.searchParams.set("environmentName", environmentName);
+  const url = new URL('/__rspack_source_map', window.location.origin);
+  url.searchParams.set('filename', filename);
+  url.searchParams.set('environmentName', environmentName);
   return url.toString();
 }
 
 export function createServerReference(
-  id: string
+  id: string,
 ): (...args: unknown[]) => Promise<unknown> {
   return ReactClient.createServerReference(
     id,
     callCurrentServerCallback,
     undefined,
-    process.env.NODE_ENV == "development" ? findSourceMapURL : undefined
+    process.env.NODE_ENV === 'development' ? findSourceMapURL : undefined,
   );
 }
 
 export const registerServerReference: <T extends Function>(
   reference: T,
   id: string,
-  exportName: string | null
+  exportName: string | null,
 ) => unknown = ReactClient.registerServerReference;
 
 export const createTemporaryReferenceSet: (
@@ -54,7 +54,7 @@ export const createTemporaryReferenceSet: (
 
 export type FindSourceMapURLCallback = (
   fileName: string,
-  environmentName: string
+  environmentName: string,
 ) => null | string;
 
 export interface Options {
@@ -66,7 +66,7 @@ export interface Options {
 
 export function createFromFetch<T>(
   promiseForResponse: Promise<Response>,
-  options: Options = {}
+  options: Options = {},
 ): Promise<T> {
   return ReactClient.createFromFetch<T>(promiseForResponse, {
     ...options,
@@ -76,7 +76,7 @@ export function createFromFetch<T>(
 
 export function createFromReadableStream<T>(
   stream: ReadableStream,
-  options: Options = {}
+  options: Options = {},
 ): Promise<T> {
   return ReactClient.createFromReadableStream<T>(stream, {
     ...options,
@@ -89,9 +89,8 @@ export const encodeReply: (
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
     signal?: AbortSignal;
-  }
+  },
 ) => Promise<string | FormData> = ReactClient.encodeReply;
-
 
 export function onServerComponentChanges(callback: () => void): () => void {
   return __webpack_require__.rscHmr.on(() => {

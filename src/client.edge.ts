@@ -1,20 +1,20 @@
-// @ts-ignore
-import * as ReactClient from "../vendor/react-server-dom-webpack/client.edge";
-import type { TemporaryReferenceSet } from "./types";
+// @ts-expect-error
+import * as ReactClient from '../vendor/react-server-dom-webpack/client.edge';
+import type { TemporaryReferenceSet } from './types';
 
 export const createTemporaryReferenceSet: (
   ...args: unknown[]
 ) => TemporaryReferenceSet = ReactClient.createTemporaryReferenceSet;
 
 export function createServerReference(
-  id: string
+  id: string,
 ): (...args: unknown[]) => Promise<unknown> {
   return ReactClient.createServerReference(id);
 }
 
 export type EncodeFormActionCallback = <A>(
   id: any,
-  args: Promise<A>
+  args: Promise<A>,
 ) => ReactCustomFormAction;
 
 export type ReactCustomFormAction = {
@@ -37,7 +37,7 @@ export interface Options {
 
 export function createFromFetch<T>(
   promiseForResponse: Promise<Response>,
-  options: Options = {}
+  options: Options = {},
 ): Promise<T> {
   return ReactClient.createFromFetch(promiseForResponse, {
     ...options,
@@ -51,7 +51,7 @@ export function createFromFetch<T>(
 
 export function createFromReadableStream<T>(
   stream: ReadableStream,
-  options: Options = {}
+  options: Options = {},
 ): Promise<T> {
   return ReactClient.createFromReadableStream<T>(stream, {
     ...options,
@@ -68,5 +68,5 @@ export const encodeReply: (
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
     signal?: AbortSignal;
-  }
+  },
 ) => Promise<string | FormData> = ReactClient.encodeReply;

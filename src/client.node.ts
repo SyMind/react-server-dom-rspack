@@ -1,9 +1,9 @@
-import type { Readable } from "node:stream";
-// @ts-ignore
-import * as ReactClient from "../vendor/react-server-dom-webpack/client.node";
-import type { EncodeFormActionCallback } from "./client.edge";
+import type { Readable } from 'node:stream';
+// @ts-expect-error
+import * as ReactClient from '../vendor/react-server-dom-webpack/client.node';
+import type { EncodeFormActionCallback } from './client.edge';
 
-export * from "./client.edge";
+export * from './client.edge';
 
 export type Options = {
   nonce?: string;
@@ -16,7 +16,7 @@ export type Options = {
 
 export function createFromNodeStream<T>(
   stream: Readable,
-  options?: Options
+  options?: Options,
 ): Promise<T> {
   return ReactClient.createFromNodeStream(
     stream,
@@ -25,6 +25,6 @@ export function createFromNodeStream<T>(
       moduleLoading: __rspack_rsc_manifest__.moduleLoading,
       serverModuleMap: __rspack_rsc_manifest__.serverManifest,
     },
-    options
+    options,
   );
 }

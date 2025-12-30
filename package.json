@@ -126,14 +126,16 @@
   "scripts": {
     "build": "pnpm run vendor && tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",
-    "vendor": "cpx \"./node_modules/react-server-dom-webpack/**\" ./vendor/react-server-dom-webpack"
+    "vendor": "cpx \"./node_modules/react-server-dom-webpack/**\" ./vendor/react-server-dom-webpack",
+    "fmt": "biome format --write"
   },
   "peerDependencies": {
+    "@rspack/core": "^1.x",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "@rspack/core": "^1.x"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.10",
     "@types/node": "^24.10.1",
     "cpx2": "^8.0.0",
     "react-server-dom-webpack": "^19.2.3",
