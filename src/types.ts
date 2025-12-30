@@ -1,5 +1,10 @@
 export type TemporaryReferenceSet = Map<string, unknown>;
 
+export type ServerEntry<T> = T & {
+  entryJsFiles: string[];
+  entryCssFiles: string[];
+};
+
 type ModuleLoading = {
     prefix: string,
     crossOrigin: 'use-credentials' | '',

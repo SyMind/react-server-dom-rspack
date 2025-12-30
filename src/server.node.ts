@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as ReactServer from "../vendor/react-server-dom-webpack/server.node";
-import type { TemporaryReferenceSet } from "./types";
+import type { ServerEntry, TemporaryReferenceSet } from "./types";
 
 export type { TemporaryReferenceSet } from "./types";
 
@@ -107,10 +107,7 @@ export async function loadServerAction(actionId: string): Promise<Function> {
   return fn;
 }
 
-export type ServerEntry<T> = T & {
-  entryJsFiles: string[];
-  entryCssFiles: string[];
-};
+export type { ServerEntry } from "./types";
 
 export function createServerEntry<T>(
   value: T,

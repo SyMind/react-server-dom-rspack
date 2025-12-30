@@ -1,6 +1,6 @@
 // @ts-ignore
 import * as ReactServer from "../vendor/react-server-dom-webpack/server.edge";
-import type { TemporaryReferenceSet } from "./types";
+import type { TemporaryReferenceSet, ServerEntry } from "./types";
 
 export function renderToReadableStream(
   model: any,
@@ -75,7 +75,7 @@ export const registerClientReference: (
 export const registerServerReference: <T extends Function>(
   reference: T,
   id: string,
-  exportName: string
+  exportName: null | string
 ) => unknown = ReactServer.registerServerReference;
 
 export const createTemporaryReferenceSet: (
@@ -99,10 +99,7 @@ export async function loadServerAction(actionId: string): Promise<Function> {
   return fn;
 }
 
-export type ServerEntry<T> = T & {
-  entryJsFiles: string[];
-  entryCssFiles: string[];
-};
+export type { ServerEntry } from "./types";
 
 export function createServerEntry<T>(
   value: T,

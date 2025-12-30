@@ -42,8 +42,8 @@ export function createServerReference(
   );
 }
 
-export const registerServerReference: (
-  reference: any,
+export const registerServerReference: <T extends Function>(
+  reference: T,
   id: string,
   exportName: string | null
 ) => unknown = ReactClient.registerServerReference;
