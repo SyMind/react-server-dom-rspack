@@ -40,12 +40,12 @@ export function createFromFetch<T>(
   options: Options = {}
 ): Promise<T> {
   return ReactClient.createFromFetch(promiseForResponse, {
+    ...options,
     serverConsumerManifest: {
       moduleMap: __rspack_rsc_manifest__.serverConsumerModuleMap,
       moduleLoading: __rspack_rsc_manifest__.moduleLoading,
       serverModuleMap: __rspack_rsc_manifest__.serverManifest,
     },
-    ...options,
   });
 }
 
@@ -54,12 +54,12 @@ export function createFromReadableStream<T>(
   options: Options = {}
 ): Promise<T> {
   return ReactClient.createFromReadableStream<T>(stream, {
+    ...options,
     serverConsumerManifest: {
       moduleMap: __rspack_rsc_manifest__.serverConsumerModuleMap,
       moduleLoading: __rspack_rsc_manifest__.moduleLoading,
       serverModuleMap: __rspack_rsc_manifest__.serverManifest,
     },
-    ...options,
   });
 }
 

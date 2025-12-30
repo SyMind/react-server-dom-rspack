@@ -69,8 +69,8 @@ export function createFromFetch<T>(
   options: Options = {}
 ): Promise<T> {
   return ReactClient.createFromFetch<T>(promiseForResponse, {
-    callServer: callCurrentServerCallback,
     ...options,
+    callServer: callCurrentServerCallback,
   });
 }
 
@@ -79,8 +79,8 @@ export function createFromReadableStream<T>(
   options: Options = {}
 ): Promise<T> {
   return ReactClient.createFromReadableStream<T>(stream, {
-    callServer: callCurrentServerCallback,
     ...options,
+    callServer: callCurrentServerCallback,
   });
 }
 
