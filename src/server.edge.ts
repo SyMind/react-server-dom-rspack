@@ -3,7 +3,7 @@ import * as ReactServer from '../vendor/react-server-dom-webpack/server.edge';
 import type { ServerEntry, TemporaryReferenceSet } from './types';
 
 export function renderToReadableStream(
-  model: any,
+  model: unknown,
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
     environmentName?: string | (() => string);
@@ -67,7 +67,7 @@ export function decodeFormState<S>(
 }
 
 export const registerClientReference: (
-  proxyImplementation: any,
+  proxyImplementation: unknown,
   id: string,
   exportName: string,
 ) => unknown = ReactServer.registerClientReference;

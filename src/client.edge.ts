@@ -13,7 +13,7 @@ export function createServerReference(
 }
 
 export type EncodeFormActionCallback = <A>(
-  id: any,
+  id: unknown,
   args: Promise<A>,
 ) => ReactCustomFormAction;
 

@@ -5,7 +5,7 @@ import type { ServerEntry, TemporaryReferenceSet } from './types';
 export type { TemporaryReferenceSet } from './types';
 
 export function renderToReadableStream(
-  model: any,
+  model: unknown,
   options?: {
     temporaryReferences?: TemporaryReferenceSet;
     environmentName?: string | (() => string);
@@ -75,7 +75,7 @@ export function registerServerReference<T extends Function>(
 }
 
 export function registerClientReference(
-  proxyImplementation: any,
+  proxyImplementation: unknown,
   id: string,
   exportName: string,
 ): unknown {

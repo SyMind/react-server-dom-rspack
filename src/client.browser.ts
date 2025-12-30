@@ -12,7 +12,10 @@ export function setServerCallback(fn: CallServerCallback) {
   callServer = fn;
 }
 
-function callCurrentServerCallback(id: string, args: any): Promise<any> {
+function callCurrentServerCallback(
+  id: string,
+  args: unknown[],
+): Promise<unknown> {
   if (!callServer) {
     throw new Error(
       'No server callback has been registered. Call setServerCallback to register one.',

@@ -127,7 +127,7 @@
     "build": "pnpm run vendor && tsc -p tsconfig.json",
     "dev": "tsc -p tsconfig.json --watch",
     "vendor": "cpx \"./node_modules/react-server-dom-webpack/**\" ./vendor/react-server-dom-webpack",
-    "fmt": "biome format --write"
+    "check": "biome check --write"
   },
   "peerDependencies": {
     "@rspack/core": "^1.x",

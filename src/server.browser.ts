@@ -3,7 +3,7 @@ import * as ReactServer from '../vendor/react-server-dom-webpack/server.browser'
 import type { ServerEntry, TemporaryReferenceSet } from './types';
 
 export function renderToReadableStream(
-  model: any,
+  model: unknown,
   options?: {
     debugChannel?: { readable?: ReadableStream; writable?: WritableStream };
     environmentName?: string | (() => string);
@@ -61,7 +61,7 @@ export const registerServerReference: <T extends Function>(
 ) => unknown = ReactServer.registerServerReference;
 
 export const registerClientReference: (
-  proxyImplementation: any,
+  proxyImplementation: unknown,
   id: string,
   exportName: string,
 ) => unknown = ReactServer.registerClientReference;
