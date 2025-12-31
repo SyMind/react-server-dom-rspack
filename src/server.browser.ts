@@ -70,7 +70,7 @@ export const createTemporaryReferenceSet: (
   ...args: unknown[]
 ) => TemporaryReferenceSet = ReactServer.createTemporaryReferenceSet;
 
-export async function loadServerAction(actionId: string): Promise<Function> {
+export function loadServerAction(actionId: string): Function {
   const actionModId = __rspack_rsc_manifest__.serverManifest[actionId]?.id;
 
   if (!actionModId) {

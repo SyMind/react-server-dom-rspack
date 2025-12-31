@@ -32,6 +32,15 @@ type ClientManifest = {
   [id: string]: ImportManifestEntry;
 };
 
+type RscManifest = {
+  serverManifest: ServerManifest;
+  clientManifest: ClientManifest;
+  serverConsumerModuleMap: ServerConsumerModuleMap;
+  moduleLoading: ModuleLoading;
+  entryCssFiles: Record<string, string[]>;
+  entryJsFiles: string[];
+};
+
 declare global {
   const __webpack_require__: ((id: string | number) => any) & {
     rscHmr: {
@@ -39,12 +48,5 @@ declare global {
     };
   };
 
-  const __rspack_rsc_manifest__: {
-    serverManifest: ServerManifest;
-    clientManifest: ClientManifest;
-    serverConsumerModuleMap: ServerConsumerModuleMap;
-    moduleLoading: ModuleLoading;
-    entryCssFiles: Record<string, string[]>;
-    entryJsFiles: string[];
-  };
+  const __rspack_rsc_manifest__: RscManifest;
 }
