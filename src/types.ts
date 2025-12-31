@@ -32,7 +32,7 @@ type ClientManifest = {
   [id: string]: ImportManifestEntry;
 };
 
-export type RscManifest = {
+type RscManifest = {
   serverManifest: ServerManifest;
   clientManifest: ClientManifest;
   serverConsumerModuleMap: ServerConsumerModuleMap;

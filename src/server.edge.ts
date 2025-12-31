@@ -1,10 +1,6 @@
 // @ts-expect-error
 import * as ReactServer from '../vendor/react-server-dom-webpack/server.edge';
-import type { RscManifest, ServerEntry, TemporaryReferenceSet } from './types';
-
-export type { RscManifest, TemporaryReferenceSet } from './types';
-
-export const rscManifest: RscManifest = __rspack_rsc_manifest__;
+import type { ServerEntry, TemporaryReferenceSet } from './types';
 
 export function renderToReadableStream(
   model: unknown,
@@ -24,7 +20,7 @@ export function renderToReadableStream(
 ) {
   ReactServer.renderToReadableStream(
     model,
-    rscManifest.clientManifest,
+    __rspack_rsc_manifest__.clientManifest,
     options,
   );
 }
@@ -35,7 +31,11 @@ export function decodeReply<T>(
     temporaryReferences?: TemporaryReferenceSet;
   },
 ): Promise<T> {
-  return ReactServer.decodeReply(body, rscManifest.serverManifest, options);
+  return ReactServer.decodeReply(
+    body,
+    __rspack_rsc_manifest__.serverManifest,
+    options,
+  );
 }
 
 export function decodeReplyFromAsyncIterable<T>(
@@ -46,13 +46,13 @@ export function decodeReplyFromAsyncIterable<T>(
 ): Promise<T> {
   return ReactServer.decodeReplyFromAsyncIterable(
     iterable,
-    rscManifest.serverManifest,
+    __rspack_rsc_manifest__.serverManifest,
     options,
   );
 }
 
 export function decodeAction<T>(body: FormData): Promise<() => T> | null {
-  return ReactServer.decodeAction(body, rscManifest.serverManifest);
+  return ReactServer.decodeAction(body, __rspack_rsc_manifest__.serverManifest);
 }
 
 export function decodeFormState<S>(
@@ -83,7 +83,7 @@ export const createTemporaryReferenceSet: (
 ) => TemporaryReferenceSet = ReactServer.createTemporaryReferenceSet;
 
 export function loadServerAction(actionId: string): Function {
-  const actionModId = rscManifest.serverManifest[actionId]?.id;
+  const actionModId = __rspack_rsc_manifest__.serverManifest[actionId]?.id;
 
   if (!actionModId) {
     throw new Error(
@@ -105,8 +105,9 @@ export function createServerEntry<T>(
   value: T,
   resourceId: string,
 ): ServerEntry<T> {
-  const entryJsFiles = rscManifest.entryJsFiles ?? [];
-  const entryCssFiles = rscManifest.entryCssFiles?.[resourceId] ?? [];
+  const entryJsFiles = __rspack_rsc_manifest__.entryJsFiles ?? [];
+  const entryCssFiles =
+    __rspack_rsc_manifest__.entryCssFiles?.[resourceId] ?? [];
   if (
     typeof value === 'function' ||
     (typeof value === 'object' && value !== null)
