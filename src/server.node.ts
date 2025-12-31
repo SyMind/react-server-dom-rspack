@@ -1,8 +1,10 @@
 // @ts-expect-error
 import * as ReactServer from '../vendor/react-server-dom-webpack/server.node';
-import type { ServerEntry, TemporaryReferenceSet } from './types';
+import type { RscManifest, ServerEntry, TemporaryReferenceSet } from './types';
 
-export type { TemporaryReferenceSet } from './types';
+export type { RscManifest, TemporaryReferenceSet } from './types';
+
+export const rscManifest: RscManifest = __rspack_rsc_manifest__;
 
 export function renderToReadableStream(
   model: unknown,
@@ -22,7 +24,7 @@ export function renderToReadableStream(
 ): ReadableStream<Uint8Array> {
   return ReactServer.renderToReadableStream(
     model,
-    __rspack_rsc_manifest__.clientManifest,
+    rscManifest.clientManifest,
     options,
   );
 }
@@ -31,11 +33,7 @@ export function decodeReply<T>(
   body: string | FormData,
   options?: { temporaryReferences?: TemporaryReferenceSet },
 ): Promise<T[]> {
-  return ReactServer.decodeReply(
-    body,
-    __rspack_rsc_manifest__.serverManifest,
-    options,
-  );
+  return ReactServer.decodeReply(body, rscManifest.serverManifest, options);
 }
 
 export function decodeReplyFromAsyncIterable<T>(
@@ -46,13 +44,13 @@ export function decodeReplyFromAsyncIterable<T>(
 ): Promise<T> {
   return ReactServer.decodeReplyFromAsyncIterable(
     iterable,
-    __rspack_rsc_manifest__.serverManifest,
+    rscManifest.serverManifest,
     options,
   );
 }
 
 export function decodeAction(body: FormData): Promise<() => unknown> | null {
-  return ReactServer.decodeAction(body, __rspack_rsc_manifest__.serverManifest);
+  return ReactServer.decodeAction(body, rscManifest.serverManifest);
 }
 
 export function decodeFormState(
@@ -62,7 +60,7 @@ export function decodeFormState(
   return ReactServer.decodeFormState(
     actionResult,
     body,
-    __rspack_rsc_manifest__.serverManifest,
+    rscManifest.serverManifest,
   );
 }
 
@@ -91,7 +89,7 @@ export const createTemporaryReferenceSet: (
 ) => TemporaryReferenceSet = ReactServer.createTemporaryReferenceSet;
 
 export function loadServerAction(actionId: string): Function {
-  const actionModId = __rspack_rsc_manifest__.serverManifest[actionId]?.id;
+  const actionModId = rscManifest.serverManifest[actionId]?.id;
 
   if (!actionModId) {
     throw new Error(
@@ -113,9 +111,8 @@ export function createServerEntry<T>(
   value: T,
   resourceId: string,
 ): ServerEntry<T> {
-  const entryJsFiles = __rspack_rsc_manifest__.entryJsFiles ?? [];
-  const entryCssFiles =
-    __rspack_rsc_manifest__.entryCssFiles?.[resourceId] ?? [];
+  const entryJsFiles = rscManifest.entryJsFiles ?? [];
+  const entryCssFiles = rscManifest.entryCssFiles?.[resourceId] ?? [];
   if (
     typeof value === 'function' ||
     (typeof value === 'object' && value !== null)
