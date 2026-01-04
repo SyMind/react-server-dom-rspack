@@ -121,3 +121,43 @@ export function ensureServerActions(actions: any[]) {
     }
   }
 }
+
+type EncryptFunction = (actionId: string, ...args: any[]) => Promise<any>;
+type DecryptFunction = (
+  actionId: string,
+  encryptedPromise: Promise<any>,
+) => Promise<any>;
+
+const defaultEncrypt: EncryptFunction = async (_actionId, ...args) => args;
+const defaultDecrypt: DecryptFunction = (_actionId, encryptedPromise) =>
+  encryptedPromise;
+
+const actionBoundArgsEncryption: {
+  encrypt: EncryptFunction;
+  decrypt: DecryptFunction;
+} = {
+  encrypt: defaultEncrypt,
+  decrypt: defaultDecrypt,
+};
+
+export function setActionBoundArgsEncryption(
+  encrypt: EncryptFunction,
+  decrypt: DecryptFunction,
+) {
+  actionBoundArgsEncryption.encrypt = encrypt;
+  actionBoundArgsEncryption.decrypt = decrypt;
+}
+
+export async function encryptActionBoundArgs(
+  actionId: string,
+  ...args: any[]
+): Promise<any> {
+  return actionBoundArgsEncryption.encrypt(actionId, ...args);
+}
+
+export async function decryptActionBoundArgs(
+  actionId: string,
+  encryptedPromise: Promise<any>,
+): Promise<any> {
+  return actionBoundArgsEncryption.decrypt(actionId, encryptedPromise);
+}
