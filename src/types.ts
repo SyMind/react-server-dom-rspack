@@ -42,11 +42,11 @@ type RscManifest = {
 };
 
 declare global {
-  const __webpack_require__: ((id: string | number) => any) & {
-    rscHmr: {
-      on: (callback: () => void) => () => void;
-    };
-  };
+  const __webpack_require__: (id: string | number) => any;
 
   const __rspack_rsc_manifest__: RscManifest;
+
+  const __rspack_rsc_hot_reloader__: {
+    on: (callback: () => void) => () => void;
+  };
 }

@@ -96,7 +96,7 @@ export const encodeReply: (
 ) => Promise<string | FormData> = ReactClient.encodeReply;
 
 export function onServerComponentChanges(callback: () => void): () => void {
-  return __webpack_require__.rscHmr.on(() => {
+  return __rspack_rsc_hot_reloader__.on(() => {
     callback();
   });
 }
