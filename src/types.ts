@@ -41,6 +41,11 @@ type RscManifest = {
   entryJsFiles: string[];
 };
 
+export interface BoundArgsEncryptionStrategy<T> {
+  encrypt: (actionId: string, ...args: any[]) => Promise<T>;
+  decrypt: (actionId: string, payloadPromise: Promise<T>) => Promise<any[]>;
+}
+
 declare global {
   const __webpack_require__: (id: string | number) => any;
 

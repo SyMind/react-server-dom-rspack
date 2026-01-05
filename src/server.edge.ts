@@ -1,6 +1,10 @@
 // @ts-expect-error
 import * as ReactServer from '../vendor/react-server-dom-webpack/server.edge';
-import type { ServerEntry, TemporaryReferenceSet } from './types';
+import type {
+  BoundArgsEncryptionStrategy,
+  ServerEntry,
+  TemporaryReferenceSet,
+} from './types';
 
 export function renderToReadableStream(
   model: unknown,
@@ -134,42 +138,30 @@ export function ensureServerActions(actions: any[]) {
   }
 }
 
-type EncryptFunction = (actionId: string, ...args: any[]) => Promise<any>;
-type DecryptFunction = (
-  actionId: string,
-  encryptedPromise: Promise<any>,
-) => Promise<any>;
-
-const defaultEncrypt: EncryptFunction = async (_actionId, ...args) => args;
-const defaultDecrypt: DecryptFunction = (_actionId, encryptedPromise) =>
-  encryptedPromise;
-
-const actionBoundArgsEncryption: {
-  encrypt: EncryptFunction;
-  decrypt: DecryptFunction;
-} = {
-  encrypt: defaultEncrypt,
-  decrypt: defaultDecrypt,
+const defaultStrategy: BoundArgsEncryptionStrategy<any> = {
+  encrypt: async (_actionId: string, ...args: any[]) => args,
+  decrypt: async (_actionId: string, payloadPromise: Promise<any>) =>
+    payloadPromise,
 };
 
-export function setActionBoundArgsEncryption(
-  encrypt: EncryptFunction,
-  decrypt: DecryptFunction,
+let currentStrategy = defaultStrategy;
+
+export function setServerActionBoundArgsEncryption<T>(
+  strategy: BoundArgsEncryptionStrategy<T>,
 ) {
-  actionBoundArgsEncryption.encrypt = encrypt;
-  actionBoundArgsEncryption.decrypt = decrypt;
+  currentStrategy = strategy;
 }
 
 export async function encryptActionBoundArgs(
   actionId: string,
   ...args: any[]
 ): Promise<any> {
-  return actionBoundArgsEncryption.encrypt(actionId, ...args);
+  return currentStrategy.encrypt(actionId, ...args);
 }
 
 export async function decryptActionBoundArgs(
   actionId: string,
   encryptedPromise: Promise<any>,
 ): Promise<any> {
-  return actionBoundArgsEncryption.decrypt(actionId, encryptedPromise);
+  return currentStrategy.decrypt(actionId, encryptedPromise);
 }
